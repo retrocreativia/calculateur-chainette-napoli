@@ -29,6 +29,8 @@
       border-radius: 10px;
       box-sizing: border-box;
       font-size: 16px;
+      font-weight: bold;
+      color: #4b2e2e;
     }
     button {
       margin-top: 20px;
@@ -48,25 +50,42 @@
       border-radius: 10px;
       border: 1px solid #e7c4a8;
     }
+    .result-value {
+      font-weight: bold;
+      color: #218c5f;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
   <h1>Calculateur Chaînette de Départ</h1>
 
+  <p style="background:#fff3ec; padding:15px; border-radius:10px; border:1px solid #e7c4a8; margin-bottom:20px; font-size:16px;">
+    ✨ <strong>Bienvenue !</strong><br>
+    Ce petit calculateur t’aide à savoir combien de <strong>mailles en l’air</strong> tu dois monter pour créer la <strong>chaînette de départ</strong> de ton vêtement au crochet.<br><br>
+    🧶 Rentre simplement :
+    <ul style="margin-top: 5px; margin-left: 20px;">
+      <li>la largeur que font <strong>12 mailles</strong> sur ton échantillon,</li>
+      <li>la largeur souhaitée pour ton <strong>buste</strong>,</li>
+      <li><em>(facultatif)</em> la largeur de ta <strong>manche</strong>.</li>
+    </ul>
+    Le calcul se fait tout seul, et le résultat te donnera un <strong>nombre multiple de 12</strong>, parfait pour le motif à chevrons 🌿
+  </p>
+
   <label for="echantillon">Largeur de 12 mailles sur ton échantillon (en cm) :</label>
-  <input type="number" id="echantillon" step="0.1">
+  <input type="number" id="echantillon" step="0.1" required>
 
   <label for="buste">Largeur du buste souhaitée (marge incluse, en cm) :</label>
-  <input type="number" id="buste" step="0.1">
+  <input type="number" id="buste" step="0.1" required>
 
-  <label for="manche">Largeur de la manche souhaitée (marge incluse, en cm) :</label>
+  <label for="manche">Largeur de la manche souhaitée (marge incluse, en cm) <em>(facultatif)</em> :</label>
   <input type="number" id="manche" step="0.1">
 
   <button onclick="calculer()">Calculer</button>
 
   <div class="result" id="resultat" style="display:none;">
-    <p><strong>Mailles pour le buste :</strong> <span id="result-buste"></span> ml</p>
-    <p><strong>Mailles pour une manche :</strong> <span id="result-manche"></span> ml</p>
+    <p><strong>Mailles pour le buste :</strong> <span id="result-buste" class="result-value"></span> ml</p>
+    <p id="ligne-manche" style="display:none;"><strong>Mailles pour une manche :</strong> <span id="result-manche" class="result-value"></span> ml</p>
   </div>
 
   <script>
@@ -77,18 +96,25 @@
     function calculer() {
       const echantillon = parseFloat(document.getElementById("echantillon").value);
       const buste = parseFloat(document.getElementById("buste").value);
-      const manche = parseFloat(document.getElementById("manche").value);
+      const mancheInput = document.getElementById("manche").value;
+      const manche = parseFloat(mancheInput);
 
-      if (!echantillon || !buste || !manche) {
-        alert("Merci de remplir tous les champs !");
+      if (!echantillon || !buste) {
+        alert("Merci de remplir au moins les champs échantillon et buste !");
         return;
       }
 
       const maillesBuste = arrondiMultiple12((buste / echantillon) * 12);
-      const maillesManche = arrondiMultiple12((manche / echantillon) * 12);
-
       document.getElementById("result-buste").textContent = maillesBuste;
-      document.getElementById("result-manche").textContent = maillesManche;
+
+      if (mancheInput !== "" && !isNaN(manche)) {
+        const maillesManche = arrondiMultiple12((manche / echantillon) * 12);
+        document.getElementById("result-manche").textContent = maillesManche;
+        document.getElementById("ligne-manche").style.display = "block";
+      } else {
+        document.getElementById("ligne-manche").style.display = "none";
+      }
+
       document.getElementById("resultat").style.display = "block";
     }
   </script>
