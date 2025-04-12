@@ -55,20 +55,33 @@
       color: #218c5f;
       font-size: 18px;
     }
+    .encadre {
+      background: #fff3ec;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #e7c4a8;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
   <h1>Calculateur Chaînette de Départ</h1>
 
-  <p style="background:#fff3ec; padding:15px; border-radius:10px; border:1px solid #e7c4a8; margin-bottom:20px; font-size:16px;">
+  <div class="encadre">
     ✨ <strong>Bienvenue dans ton calculateur Napoli !</strong><br><br>
     Cet outil t’aide à savoir combien de <strong>mailles en l’air</strong> tu dois monter pour créer la <strong>chaînette de départ</strong> de ton vêtement au crochet.<br><br>
-    🧶 <strong>Rentre simplement :</strong><br>
-    la largeur que font <strong>12 mailles</strong> sur ton échantillon,<br>
-    la largeur souhaitée pour ton <strong>buste</strong>,<br>
-    <em>(facultatif)</em> la largeur de ta <strong>manche</strong>.<br><br>
+    🧶 <strong>Rentre simplement :</strong><br><br>
+    <ul style="margin-top: 0; margin-left: 20px; padding-left: 0;">
+      <li>la largeur que font <strong>12 mailles</strong> sur ton échantillon,</li>
+      <li>la largeur souhaitée pour ton <strong>buste</strong>,</li>
+      <li><em>(facultatif)</em> la largeur de ta <strong>manche</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="encadre">
     Le calcul se fait tout seul, et le résultat te donnera un <strong>nombre multiple de 12</strong>, parfait pour le motif à chevrons 🌿
-  </p>
+  </div>
 
   <label for="echantillon">Largeur de 12 mailles sur ton échantillon (en cm) :</label>
   <input type="number" id="echantillon" step="0.1" required>
