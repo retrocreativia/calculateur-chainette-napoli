@@ -75,7 +75,7 @@
     <ul style="margin-top: 0; margin-left: 20px; padding-left: 0;">
       <li>la largeur que font <strong>12 mailles</strong> sur ton échantillon,</li>
       <li>la largeur souhaitée pour ton <strong>buste</strong>,</li>
-      <li><em>(facultatif)</em> la largeur de ta <strong>manche</strong>.</li>
+      <li>la largeur de ta <strong>manche</strong>.</li>
     </ul>
   </div>
 
@@ -87,15 +87,15 @@
   <input type="number" id="echantillon" step="0.1" required>
 
   <label for="buste">Largeur du buste souhaitée (marge incluse, en cm) :</label>
-  <input type="number" id="buste" step="0.1" required>
+  <input type="number" id="buste" step="0.1">
 
-  <label for="manche">Largeur de la manche souhaitée (marge incluse, en cm) <em>(facultatif)</em> :</label>
+  <label for="manche">Largeur de la manche souhaitée (marge incluse, en cm) :</label>
   <input type="number" id="manche" step="0.1">
 
   <button onclick="calculer()">Calculer</button>
 
   <div class="result" id="resultat" style="display:none;">
-    <p><strong>Mailles pour le buste :</strong> <span id="result-buste" class="result-value"></span> <span class="result-value">ml</span></p>
+    <p id="ligne-buste" style="display:none;"><strong>Mailles pour le buste :</strong> <span id="result-buste" class="result-value"></span> <span class="result-value">ml</span></p>
     <p id="ligne-manche" style="display:none;"><strong>Mailles pour une manche :</strong> <span id="result-manche" class="result-value"></span> <span class="result-value">ml</span></p>
   </div>
 
@@ -106,27 +106,43 @@
 
     function calculer() {
       const echantillon = parseFloat(document.getElementById("echantillon").value);
-      const buste = parseFloat(document.getElementById("buste").value);
+      const busteInput = document.getElementById("buste").value;
       const mancheInput = document.getElementById("manche").value;
+
+      const buste = parseFloat(busteInput);
       const manche = parseFloat(mancheInput);
 
-      if (!echantillon || !buste) {
-        alert("Merci de remplir au moins les champs échantillon et buste !");
+      if (!echantillon || isNaN(echantillon)) {
+        alert("Merci de remplir la largeur de 12 mailles sur ton échantillon.");
         return;
       }
 
-      const maillesBuste = arrondiMultiple12((buste / echantillon) * 12);
-      document.getElementById("result-buste").textContent = maillesBuste;
+      let aDesResultats = false;
+
+      if (busteInput !== "" && !isNaN(buste)) {
+        const maillesBuste = arrondiMultiple12((buste / echantillon) * 12);
+        document.getElementById("result-buste").textContent = maillesBuste;
+        document.getElementById("ligne-buste").style.display = "block";
+        aDesResultats = true;
+      } else {
+        document.getElementById("ligne-buste").style.display = "none";
+      }
 
       if (mancheInput !== "" && !isNaN(manche)) {
         const maillesManche = arrondiMultiple12((manche / echantillon) * 12);
         document.getElementById("result-manche").textContent = maillesManche;
         document.getElementById("ligne-manche").style.display = "block";
+        aDesResultats = true;
       } else {
         document.getElementById("ligne-manche").style.display = "none";
       }
 
-      document.getElementById("resultat").style.display = "block";
+      if (aDesResultats) {
+        document.getElementById("resultat").style.display = "block";
+      } else {
+        alert("Merci d’entrer au moins une mesure (buste ou manche) à calculer.");
+        document.getElementById("resultat").style.display = "none";
+      }
     }
   </script>
 </body>
