@@ -110,15 +110,21 @@
       transform:translateY(-2px);
     }
 
+    /* 🔥 Encadré résultat */
     .result{
       margin-top:28px;
-      font-size:20px;
-      font-weight:700;
-      min-height:20px;
+      padding:18px;
+      border-radius:18px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-size:17px;
+      font-weight:600;
+      display:none;
     }
 
     .result span{
       color:var(--success);
+      font-weight:700;
     }
 
   </style>
@@ -170,11 +176,13 @@ function calculer(){
   const zone = document.getElementById("resultat");
 
   if(!echantillon){
+    zone.style.display = "block";
     zone.innerHTML = "Merci d’indiquer la largeur de 12 mailles.";
     return;
   }
 
   if(!buste && !manche){
+    zone.style.display = "block";
     zone.innerHTML = "Indique au moins le buste ou la manche.";
     return;
   }
@@ -198,6 +206,7 @@ function calculer(){
   }
 
   zone.innerHTML = message;
+  zone.style.display = "block";
 }
 </script>
 
