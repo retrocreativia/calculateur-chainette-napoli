@@ -17,9 +17,7 @@
 
       --info:#fff1f4;
 
-      --success-bg:#e8f7ec;
-      --success-border:#b7e4c7;
-      --success-text:#2f7a46;
+      --success:#2f9e60;
 
       --shadow:0 18px 45px rgba(74,47,53,.10);
       --radius:24px;
@@ -114,13 +112,13 @@
 
     .result{
       margin-top:28px;
-      padding:20px;
-      border-radius:18px;
-      background:var(--success-bg);
-      border:1px solid var(--success-border);
-      color:var(--success-text);
-      font-weight:600;
+      font-size:20px;
+      font-weight:700;
       min-height:20px;
+    }
+
+    .result span{
+      color:var(--success);
     }
 
   </style>
@@ -191,12 +189,12 @@ function calculer(){
 
   if(buste){
     const maillesBuste = arrondiMultiple12(buste * mailleParCm);
-    message += "Buste : " + maillesBuste + " mailles<br>";
+    message += "Mailles pour le buste : <span>" + maillesBuste + " ml</span><br>";
   }
 
   if(manche){
     const maillesManche = arrondiMultiple12(manche * mailleParCm);
-    message += "Manche : " + maillesManche + " mailles";
+    message += "Mailles pour la manche : <span>" + maillesManche + " ml</span>";
   }
 
   zone.innerHTML = message;
