@@ -1,151 +1,210 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Calculateur Napoli – Chaînette de Départ</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <title>Calculateur de Chaînette de Départ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: #fff8f4;
-      padding: 20px;
-      color: #4b2e2e;
-      max-width: 500px;
-      margin: auto;
+    :root{
+      /* Fond et carte : chaleureux, pas froid */
+      --bg:#fff7f8;          /* crème rosé */
+      --card:#ffffff;
+
+      /* Texte : brun rosé (plus doux que noir) */
+      --text:#4a2f35;
+
+      /* Bordures : rose très clair */
+      --border:#f0d5dc;
+
+      /* Couleurs principales : rose Napoli */
+      --accent:#e36a7a;      /* rose chaud */
+      --accent2:#d95569;     /* rose un peu plus soutenu */
+
+      /* Blocs */
+      --info:#fff1f4;        /* rose très très clair (lisible) */
+
+      --shadow:0 18px 45px rgba(74,47,53,.10);
+      --radius:24px;
     }
-    h1 {
-      text-align: center;
-      font-size: 24px;
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      padding:50px 18px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
     }
-    label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: bold;
+
+    .container{
+      max-width:680px;
+      margin:0 auto;
     }
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      border: 2px solid #e7c4a8;
-      border-radius: 10px;
-      box-sizing: border-box;
-      font-size: 16px;
-      font-weight: bold;
-      color: #4b2e2e;
+
+    .card{
+      background:var(--card);
+      padding:35px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
     }
-    button {
-      margin-top: 20px;
-      background: #e7c4a8;
-      border: none;
-      color: #fff;
-      font-size: 18px;
-      padding: 12px;
-      border-radius: 25px;
-      cursor: pointer;
-      width: 100%;
+
+    h1{
+      text-align:center;
+      margin:0 0 30px;
+      font-size:26px;
+      letter-spacing:-0.3px;
+      color:var(--text);
+      font-weight:700;
     }
-    .result {
-      margin-top: 20px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #e7c4a8;
+
+    .bloc-welcome{
+      background:var(--accent);
+      color:#fff;
+      padding:18px;
+      border-radius:18px;
+      font-weight:650;
+      margin-bottom:20px;
+      text-align:center;
+      font-size:16px;
     }
-    .result-value {
-      font-weight: bold;
-      color: #218c5f;
-      font-size: 18px;
+
+    .bloc-info{
+      background:var(--info);
+      padding:24px;
+      border-radius:18px;
+      margin-bottom:28px;
+      font-size:15px;
+      line-height:1.7;
+      border:1px solid var(--border);
     }
-    .encadre {
-      background: #fff3ec;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #e7c4a8;
-      margin-bottom: 20px;
-      font-size: 16px;
+
+    label{
+      display:block;
+      margin:18px 0 6px;
+      font-weight:650;
+      font-size:14px;
+    }
+
+    input{
+      width:100%;
+      padding:14px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      font-size:15px;
+      outline:none;
+      transition:.2s;
+      background:#fff;
+      color:var(--text);
+    }
+
+    input:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 4px rgba(227,106,122,.20);
+    }
+
+    button{
+      width:100%;
+      margin-top:24px;
+      padding:15px;
+      border:none;
+      border-radius:16px;
+      font-size:16px;
+      font-weight:800;
+      color:#fff;
+      cursor:pointer;
+      background:linear-gradient(180deg,var(--accent),var(--accent2));
+      transition:.2s;
+    }
+
+    button:hover{ transform:translateY(-2px); }
+
+    .result{
+      margin-top:24px;
+      padding:20px;
+      border-radius:18px;
+      background:#fffaf9; /* très léger, pas blanc froid */
+      border:1px dashed var(--border);
+      font-size:15px;
+      line-height:1.6;
+      min-height:24px;
+      color:var(--text);
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:25px;
+      font-size:13px;
+      color:#8a5b63;
     }
   </style>
 </head>
+
 <body>
-  <h1>Calculateur Chaînette de Départ</h1>
+  <div class="container">
+    <div class="card">
 
-  <div class="encadre">
-    ✨ <strong>Bienvenue dans ton calculateur Napoli !</strong><br><br>
-    Cet outil t’aide à savoir combien de <strong>mailles en l’air</strong> tu dois monter pour créer la <strong>chaînette de départ</strong> de ton vêtement au crochet.<br><br>
-    🧶 <strong>Rentre simplement :</strong><br><br>
-    <ul style="margin-top: 0; margin-left: 20px; padding-left: 0;">
-      <li>la largeur que font <strong>12 mailles</strong> sur ton échantillon,</li>
-      <li>la largeur souhaitée pour ton <strong>buste</strong>,</li>
-      <li>la largeur de ta <strong>manche</strong>.</li>
-    </ul>
+      <h1>Calculateur de Chaînette de Départ</h1>
+
+      <div class="bloc-welcome">✨ Bienvenue dans ton calculateur Napoli !</div>
+
+      <div class="bloc-info">
+        Cet outil t’aide à savoir combien de mailles en l’air tu dois monter pour créer la chaînette de départ de ton vêtement au crochet.
+        <br><br>
+        🧶 <strong>Rentre simplement :</strong><br><br>
+        • la largeur que font <strong>12 mailles</strong> sur ton échantillon,<br>
+        • la largeur souhaitée pour ton buste,<br>
+        • la largeur de ta manche.<br><br>
+        Le calcul se fait tout seul, et le résultat te donnera un nombre multiple de 12, parfait pour le motif à chevrons 🌿
+      </div>
+
+      <label for="echantillon">Largeur de 12 mailles (cm)</label>
+      <input type="number" id="echantillon" placeholder="ex : 5,6" step="0.1" />
+
+      <label for="buste">Largeur du buste souhaitée (cm)</label>
+      <input type="number" id="buste" placeholder="ex : 100" />
+
+      <label for="manche">Largeur d'une manche souhaitée (cm)</label>
+      <input type="number" id="manche" placeholder="ex : 30" />
+
+      <button type="button" onclick="calculer()">Calculer</button>
+
+      <div class="result" id="resultat"></div>
+
+    </div>
+
+    <div class="footer">© Retropicaly</div>
   </div>
 
-  <div class="encadre">
-    Le calcul se fait tout seul, et le résultat te donnera un <strong>nombre multiple de 12</strong>, parfait pour le motif à chevrons 🌿
-  </div>
+<script>
+function calculer(){
+  const echantillonStr = (document.getElementById("echantillon").value || "").replace(",", ".");
+  const echantillon = parseFloat(echantillonStr);
+  const buste = parseFloat(document.getElementById("buste").value);
+  const manche = parseFloat(document.getElementById("manche").value);
+  const zone = document.getElementById("resultat");
 
-  <label for="echantillon">Largeur de 12 mailles sur ton échantillon (en cm) :</label>
-  <input type="number" id="echantillon" step="0.1" required>
+  if(!echantillon || !buste || !manche){
+    zone.textContent = "Merci de remplir tous les champs.";
+    return;
+  }
 
-  <label for="buste">Largeur du buste souhaitée (marge incluse, en cm) :</label>
-  <input type="number" id="buste" step="0.1">
+  const mailleParCm = 12 / echantillon;
 
-  <label for="manche">Largeur de la manche souhaitée (marge incluse, en cm) :</label>
-  <input type="number" id="manche" step="0.1">
+  function arrondiMultiple12(valeur){
+    return Math.round(valeur / 12) * 12;
+  }
 
-  <button onclick="calculer()">Calculer</button>
+  const maillesBuste = arrondiMultiple12(buste * mailleParCm);
+  const maillesManche = arrondiMultiple12(manche * mailleParCm);
 
-  <div class="result" id="resultat" style="display:none;">
-    <p id="ligne-buste" style="display:none;"><strong>Mailles pour le buste :</strong> <span id="result-buste" class="result-value"></span> <span class="result-value">ml</span></p>
-    <p id="ligne-manche" style="display:none;"><strong>Mailles pour une manche :</strong> <span id="result-manche" class="result-value"></span> <span class="result-value">ml</span></p>
-  </div>
+  zone.innerHTML =
+    "<strong>Mailles pour le buste :</strong> " + maillesBuste + " ml<br><br>" +
+    "<strong>Mailles pour une manche :</strong> " + maillesManche + " ml";
+}
+</script>
 
-  <script>
-    function arrondiMultiple12(valeur) {
-      return Math.ceil(valeur / 12) * 12;
-    }
-
-    function calculer() {
-      const echantillon = parseFloat(document.getElementById("echantillon").value);
-      const busteInput = document.getElementById("buste").value;
-      const mancheInput = document.getElementById("manche").value;
-
-      const buste = parseFloat(busteInput);
-      const manche = parseFloat(mancheInput);
-
-      if (!echantillon || isNaN(echantillon)) {
-        alert("Merci de remplir la largeur de 12 mailles sur ton échantillon.");
-        return;
-      }
-
-      let aDesResultats = false;
-
-      if (busteInput !== "" && !isNaN(buste)) {
-        const maillesBuste = arrondiMultiple12((buste / echantillon) * 12);
-        document.getElementById("result-buste").textContent = maillesBuste;
-        document.getElementById("ligne-buste").style.display = "block";
-        aDesResultats = true;
-      } else {
-        document.getElementById("ligne-buste").style.display = "none";
-      }
-
-      if (mancheInput !== "" && !isNaN(manche)) {
-        const maillesManche = arrondiMultiple12((manche / echantillon) * 12);
-        document.getElementById("result-manche").textContent = maillesManche;
-        document.getElementById("ligne-manche").style.display = "block";
-        aDesResultats = true;
-      } else {
-        document.getElementById("ligne-manche").style.display = "none";
-      }
-
-      if (aDesResultats) {
-        document.getElementById("resultat").style.display = "block";
-      } else {
-        alert("Merci d’entrer au moins une mesure (buste ou manche) à calculer.");
-        document.getElementById("resultat").style.display = "none";
-      }
-    }
-  </script>
 </body>
 </html>
