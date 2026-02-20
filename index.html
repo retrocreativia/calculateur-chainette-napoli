@@ -1,239 +1,452 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Calculateur de Chaînette de Départ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur – Plusieurs pelotes</title>
 
-  <style>
-    :root{
-      --bg:#fff7f8;
-      --card:#ffffff;
-      --text:#4a2f35;
-      --border:#f0d5dc;
+<style>
+:root{
+  --bg:#fff7f8;
+  --card:#ffffff;
+  --text:#4a2f35;
+  --border:#f0d5dc;
+  --accent:#e36a7a;
+  --accent2:#d95569;
+  --info:#fff1f4;
+  --success:#2f9e60;
+  --shadow:0 18px 45px rgba(74,47,53,.10);
+  --radius:24px;
+}
 
-      --accent:#e36a7a;
-      --accent2:#d95569;
+*{box-sizing:border-box;}
 
-      --info:#fff1f4;
+body{
+  margin:0;
+  padding:50px 18px;
+  font-family: system-ui, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
 
-      --success:#2f9e60;
+.container{max-width:1150px;margin:0 auto;}
 
-      --shadow:0 18px 45px rgba(74,47,53,.10);
-      --radius:24px;
-    }
+.card{
+  background:var(--card);
+  padding:35px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
 
-    *{box-sizing:border-box}
+h1{
+  text-align:center;
+  margin:0 0 18px;
+  font-size:26px;
+  font-weight:700;
+}
 
-    body{
-      margin:0;
-      padding:50px 18px;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
+.bloc-welcome{
+  background:var(--accent);
+  color:#fff;
+  padding:16px;
+  border-radius:18px;
+  font-weight:700;
+  margin-bottom:26px;
+  text-align:center;
+}
 
-    .container{
-      max-width:680px;
-      margin:auto;
-    }
+.layout{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
 
-    .card{
-      background:var(--card);
-      padding:35px;
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
+@media (min-width:900px){
+  .layout{
+    display:grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap:26px;
+  }
+}
 
-    h1{
-      text-align:center;
-      margin:0 0 30px;
-      font-size:26px;
-      font-weight:700;
-    }
+.section{
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  background:#fff;
+  box-shadow:0 10px 25px rgba(74,47,53,.06);
+}
 
-    .bloc-welcome{
-      background:var(--accent);
-      color:#fff;
-      padding:18px;
-      border-radius:18px;
-      font-weight:600;
-      margin-bottom:20px;
-      text-align:center;
-    }
+.section h2{
+  margin:0 0 14px;
+  font-size:16px;
+  font-weight:800;
+  text-align:center;
+}
 
-    .bloc-info{
-      background:var(--info);
-      padding:24px;
-      border-radius:18px;
-      margin-bottom:28px;
-      line-height:1.7;
-      border:1px solid var(--border);
-      font-size:15px;
-    }
+.pelote-sample{
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:14px;
+  background:#fffafb;
+  margin-bottom:12px;
+}
 
-    .bloc-info ul{
-      margin:18px 0 24px;
-      padding-left:20px;
-    }
+.pelote-header{
+  display:inline-block;
+  padding:6px 12px;
+  margin-bottom:12px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:800;
+  border-radius:999px;
+  font-size:14px;
+}
 
-    .bloc-info li{
-      margin-bottom:6px;
-    }
+label{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+  font-weight:600;
+  font-size:14px;
+}
 
-    .bloc-info p{
-      margin-top:18px;
-      margin-bottom:0;
-    }
+input[type="number"]{
+  width:55%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  font-size:14px;
+}
 
-    label{
-      display:block;
-      margin:18px 0 6px;
-      font-weight:600;
-    }
+button{
+  width:100%;
+  margin-top:14px;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  font-size:15px;
+  font-weight:800;
+  color:#fff;
+  cursor:pointer;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+}
 
-    input{
-      width:100%;
-      padding:14px;
-      border:1px solid var(--border);
-      border-radius:14px;
-      font-size:15px;
-      outline:none;
-      transition:.2s;
-    }
+.btn-secondary{
+  background:#fff;
+  color:var(--accent2);
+  border:1px solid var(--border);
+}
 
-    input:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 4px rgba(227,106,122,.20);
-    }
+.inline-choice{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-top:14px;
+  flex-wrap:nowrap;
+}
 
-    button{
-      width:100%;
-      margin-top:24px;
-      padding:15px;
-      border:none;
-      border-radius:16px;
-      font-size:16px;
-      font-weight:800;
-      color:#fff;
-      cursor:pointer;
-      background:linear-gradient(180deg,var(--accent),var(--accent2));
-      transition:.2s;
-    }
+.choice-label{
+  font-weight:700;
+  font-size:13px;
+  white-space:nowrap;
+}
 
-    button:hover{
-      transform:translateY(-2px);
-    }
+.radio-pill{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:#fff;
+  font-weight:700;
+  font-size:12px;
+  cursor:pointer;
+  white-space:nowrap;
+}
 
-    .result{
-      margin-top:28px;
-      padding:18px;
-      border-radius:18px;
-      border:1px solid var(--border);
-      background:#fff;
-      font-size:17px;
-      font-weight:600;
-      display:none;
-    }
+.radio-pill input{
+  accent-color:var(--accent);
+}
 
-    .result span{
-      color:var(--success);
-      font-weight:700;
-    }
+.results{
+  display:none;
+  margin-top:8px;
+  padding:14px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:#fff;
+}
 
-  </style>
+.result-block{
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+  background:#fffaf9;
+  margin-bottom:12px;
+}
+
+.result-block strong{
+  color:var(--success);
+}
+
+.marge-box{
+  background:#eaf8f0;
+  border:1px solid #c8ead6;
+  padding:10px 14px;
+  border-radius:12px;
+  margin-top:8px;
+  font-size:13px;
+  font-weight:600;
+  color:#2f9e60;
+}
+
+.bloc-info{
+  background:var(--info);
+  padding:26px;
+  border-radius:18px;
+  margin-top:35px;
+  border:1px solid var(--border);
+  font-size:15px;
+}
+
+.mini-title{
+  background:var(--accent);
+  color:#fff;
+  padding:10px 18px;
+  border-radius:999px;
+  text-align:center;
+  font-weight:800;
+  margin-bottom:18px;
+  width:fit-content;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.bloc-info ul{margin:10px 0 18px;padding-left:20px;}
+</style>
 </head>
 
 <body>
 <div class="container">
-  <div class="card">
+<div class="card">
 
-    <h1>Calculateur de Chaînette de Départ</h1>
+<h1>Calculateur – Plusieurs pelotes</h1>
 
-    <div class="bloc-welcome">
-      ✨ Bienvenue dans ton calculateur Napoli !
-    </div>
+<div class="bloc-welcome">
+Bienvenue dans ton calculateur Napoli
+</div>
 
-    <div class="bloc-info">
-      Cet outil t’aide à savoir combien de mailles en l’air tu dois monter pour créer la chaînette de départ de ton vêtement au crochet.
+<div class="layout">
 
-      <br><br>
+<div class="section">
+<h2>Mesures et poids de l'échantillon</h2>
 
-      🧶 <strong>Rentre simplement :</strong>
+<div id="pelote-forms">
+<div class="pelote-sample" id="pelote1">
+<div class="pelote-header">Pelote 1</div>
 
-      <ul>
-        <li>la largeur que font <strong>12 mailles</strong> sur ton échantillon,</li>
-        <li>la largeur souhaitée pour ton buste,</li>
-        <li>la largeur de ta manche.</li>
-      </ul>
+<label>Largeur (cm)
+<input type="number" id="widthSample1" step="0.1">
+</label>
 
-      <p>
-        <strong>Et ensuite le calcul se fait tout seul.</strong>
-        Le résultat te donnera un nombre multiple de 12, parfait pour le motif à chevrons 🌿
-      </p>
-    </div>
+<label>Hauteur (cm)
+<input type="number" id="heightSample1" step="0.1">
+</label>
 
-    <label>Largeur de 12 mailles (cm)</label>
-    <input type="number" id="echantillon" step="0.1" />
+<label>Poids (g)
+<input type="number" id="weightSample1" step="0.1">
+</label>
+</div>
+</div>
 
-    <label>Largeur du buste souhaitée (cm)</label>
-    <input type="number" id="buste" />
+<button id="addPeloteBtn">Ajouter une pelote</button>
+</div>
 
-    <label>Largeur d'une manche souhaitée (cm)</label>
-    <input type="number" id="manche" />
+<div class="section">
+<h2>Dimensions de l'ouvrage</h2>
 
-    <button onclick="calculer()">Calculer</button>
+<label>Largeur du corps (cm)
+<input type="number" id="widthBody" step="0.1">
+</label>
 
-    <div class="result" id="resultat"></div>
+<label>Hauteur du corps (cm)
+<input type="number" id="heightBody" step="0.1">
+</label>
 
-  </div>
+<div class="inline-choice">
+<span class="choice-label">Type modèle (corps)</span>
+
+<label class="radio-pill">
+<input type="radio" name="bodyShape" value="droit" checked>
+Droit
+</label>
+
+<label class="radio-pill">
+<input type="radio" name="bodyShape" value="evase">
+Évasé
+</label>
+</div>
+
+<h2 style="margin-top:20px;">Manches (facultatif)</h2>
+
+<label>Largeur des manches (cm)
+<input type="number" id="widthSleeve" step="0.1">
+</label>
+
+<label>Hauteur des manches (cm)
+<input type="number" id="heightSleeve" step="0.1">
+</label>
+
+<div class="inline-choice">
+<span class="choice-label">Type modèle (manches)</span>
+
+<label class="radio-pill">
+<input type="radio" name="sleeveShape" value="droit" checked>
+Droit
+</label>
+
+<label class="radio-pill">
+<input type="radio" name="sleeveShape" value="evase">
+Évasé
+</label>
+</div>
+
+<button id="calculateBtn">Calculer</button>
+<button id="resetBtn" class="btn-secondary">Réinitialiser</button>
+</div>
+
+<div class="section">
+<h2>Résultats</h2>
+<div id="resultsContainer" class="results"></div>
+</div>
+
+</div>
+
+<div class="bloc-info">
+<div class="mini-title">Comment ça marche ?</div>
+
+<p>
+Ce calculateur te permet de connaître la 
+<strong>quantité de laine nécessaire pour ton ouvrage</strong>,
+avec <strong>une ou plusieurs pelotes</strong>.
+</p>
+
+<ul>
+<li><strong>les dimensions + le poids de l’échantillon</strong> de chaque pelote,</li>
+<li><strong>les dimensions du corps</strong>,</li>
+<li><strong>les dimensions des manches</strong> (facultatif).</li>
+</ul>
+
+<p>
+<strong>Le calcul suppose une répartition uniforme entre tes couleurs</strong>
+(ex : 2 couleurs ≈ 50/50).
+</p>
+
+<p style="margin-top:10px;">
+<strong>Et ensuite le calcul se fait tout seul.</strong>
+Tu obtiens la quantité estimée pour chaque pelote, en grammes.
+</p>
+</div>
+
+</div>
 </div>
 
 <script>
-function calculer(){
+let peloteCount = 1;
 
-  const echantillon = parseFloat(
-    (document.getElementById("echantillon").value || "").replace(",", ".")
-  );
-
-  const buste = parseFloat(document.getElementById("buste").value);
-  const manche = parseFloat(document.getElementById("manche").value);
-
-  const zone = document.getElementById("resultat");
-
-  if(!echantillon){
-    zone.style.display = "block";
-    zone.innerHTML = "Merci d’indiquer la largeur de 12 mailles.";
-    return;
-  }
-
-  if(!buste && !manche){
-    zone.style.display = "block";
-    zone.innerHTML = "Indique au moins le buste ou la manche.";
-    return;
-  }
-
-  const mailleParCm = 12 / echantillon;
-
-  function arrondiMultiple12(valeur){
-    return Math.round(valeur / 12) * 12;
-  }
-
-  let message = "";
-
-  if(buste){
-    const maillesBuste = arrondiMultiple12(buste * mailleParCm);
-    message += "Mailles pour le buste : <span>" + maillesBuste + " ml</span><br>";
-  }
-
-  if(manche){
-    const maillesManche = arrondiMultiple12(manche * mailleParCm);
-    message += "Mailles pour la manche : <span>" + maillesManche + " ml</span>";
-  }
-
-  zone.innerHTML = message;
-  zone.style.display = "block";
+function getRadioValue(name){
+  const el=document.querySelector(`input[name="${name}"]:checked`);
+  return el?el.value:"droit";
 }
+
+function safeNum(id){
+  const v=parseFloat(document.getElementById(id).value);
+  return Number.isFinite(v)?v:NaN;
+}
+
+document.getElementById('addPeloteBtn').addEventListener('click',()=>{
+  peloteCount++;
+  const peloteForm=document.createElement('div');
+  peloteForm.classList.add('pelote-sample');
+  peloteForm.id=`pelote${peloteCount}`;
+  peloteForm.innerHTML=`
+  <div class="pelote-header">Pelote ${peloteCount}</div>
+  <label>Largeur (cm)<input type="number" id="widthSample${peloteCount}" step="0.1"></label>
+  <label>Hauteur (cm)<input type="number" id="heightSample${peloteCount}" step="0.1"></label>
+  <label>Poids (g)<input type="number" id="weightSample${peloteCount}" step="0.1"></label>
+  `;
+  document.getElementById('pelote-forms').appendChild(peloteForm);
+});
+
+document.getElementById('resetBtn').addEventListener('click',()=>location.reload());
+
+document.getElementById('calculateBtn').addEventListener('click',()=>{
+  const widthBody=safeNum("widthBody");
+  const heightBody=safeNum("heightBody");
+  const widthSleeve=safeNum("widthSleeve");
+  const heightSleeve=safeNum("heightSleeve");
+
+  const bodyShape=getRadioValue("bodyShape");
+  const sleeveShape=getRadioValue("sleeveShape");
+
+  let resultsHTML='';
+  let hasValidData=false;
+
+  for(let i=1;i<=peloteCount;i++){
+    const widthSample=parseFloat(document.getElementById(`widthSample${i}`).value);
+    const heightSample=parseFloat(document.getElementById(`heightSample${i}`).value);
+    const weightSample=parseFloat(document.getElementById(`weightSample${i}`).value);
+
+    if(!Number.isFinite(widthSample)||!Number.isFinite(heightSample)||!Number.isFinite(weightSample)||widthSample<=0||heightSample<=0) continue;
+
+    let bodyWeight=0;
+    if(Number.isFinite(widthBody)&&Number.isFinite(heightBody)){
+      bodyWeight=((widthBody/peloteCount)*heightBody)/(widthSample*heightSample)*weightSample;
+    }
+
+    let sleeveWeight=0;
+    if(Number.isFinite(widthSleeve)&&Number.isFinite(heightSleeve)){
+      sleeveWeight=((widthSleeve/peloteCount)*heightSleeve)/(widthSample*heightSample)*weightSample;
+    }
+
+    const totalWeight=bodyWeight+sleeveWeight;
+    if(totalWeight<=0) continue;
+
+    let margeParPelote=20;
+    if(bodyShape==="evase"||sleeveShape==="evase"){
+      margeParPelote=50;
+    }
+
+    const marge=margeParPelote;
+    const totalAvecMarge=totalWeight+marge;
+
+    let manchesHTML="";
+    if(sleeveWeight>0){
+      manchesHTML=`<p>Manches : <strong>${sleeveWeight.toFixed(2)} g</strong></p>`;
+    }
+
+    hasValidData=true;
+
+    resultsHTML+=`
+    <div class="result-block">
+      <div class="pelote-header">Pelote ${i}</div>
+      <p>Corps : <strong>${bodyWeight.toFixed(2)} g</strong></p>
+      ${manchesHTML}
+      <p>Total calculé : <strong>${totalWeight.toFixed(2)} g</strong></p>
+      <div class="marge-box">Marge ajoutée : ${marge.toFixed(0)} g</div>
+      <p style="margin-top:10px;">Total conseillé : <strong>${totalAvecMarge.toFixed(2)} g</strong></p>
+    </div>
+    `;
+  }
+
+  const container=document.getElementById('resultsContainer');
+  container.style.display="block";
+  container.innerHTML=hasValidData?resultsHTML:`<div class="result-block"><p>Aucune donnée valide pour le calcul.</p></div>`;
+});
 </script>
 
 </body>
